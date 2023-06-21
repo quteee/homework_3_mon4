@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import Todo from './Todo'
+import TodoForm from "./TodoForm";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    const [todos, setTodos] = useState([])
+
+    const addTask = (userInput) => {
+        if (userInput) {
+            const newItem = {
+                id: Math.random().toString(36),
+                task: userInput,
+                complete: false
+            }
+            setTodos([...todos, newItem])
+        }
+    }
+
+    return (
+    <div className='App'>
+        <header>
+            <h1>Список задач</h1>
+        </header>
+        <TodoForm addTask={addTask} />
+        {todos.map((todo) => {
+            return (
+                <Todo
+                todo={todo}
+                key={todo.id}    />
+            )
+        })}
     </div>
-  );
+    );
 }
 
 export default App;
